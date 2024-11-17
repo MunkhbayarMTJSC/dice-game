@@ -1,19 +1,32 @@
-// Тоглогчийн ээлжийн хадгалах хувьсагч
-// Player 1 - 0, Player 2 - 1 гэж тэмдэглэв
-var activePlayer = 0;
-// Тоглогчидын цуглуулсан оноог хадгалах хувьсагч
-var scores= [0, 0];
-// Ээлжийн оноо
-var roundScore = 0;
-// Программ эхлэхэд бэлтгэх
-document.getElementById("score-0").textContent = 0;
-document.getElementById("score-1").textContent = 0;
-document.getElementById("current-0").textContent = 0;
-document.getElementById("current-1").textContent = 0;
-
 var diceDom = document.querySelector(".dice");
-diceDom.style.display = "none";
+var activePlayer, score, roundScore;
+initGame();
+function initGame() {
+    // Тоглогчийн ээлжийн хадгалах хувьсагч
+    // Player 1 - 0, Player 2 - 1 гэж тэмдэглэв
+    activePlayer = 0;
+    // Тоглогчидын цуглуулсан оноог хадгалах хувьсагч
+    scores= [0, 0];
+    // Ээлжийн оноо
+    roundScore = 0;
 
+    // Тоглогчидын нэрийг буцааж гаргах
+    document.getElementById("name-0").textContent = "Player 1";
+    document.getElementById("name-1").textContent = "Player 2";
+    // Программ эхлэхэд бэлтгэх
+    document.getElementById("score-0").textContent = 0;
+    document.getElementById("score-1").textContent = 0;
+    document.getElementById("current-0").textContent = 0;
+    document.getElementById("current-1").textContent = 0;
+    // Winner Арилгана
+    document.querySelector(".player-0-panel").classList.remove("winner");
+    document.querySelector(".player-1-panel").classList.remove("active");
+    document.querySelector(".player-1-panel").classList.remove("active");
+    document.querySelector(".player-0-panel").classList.add("active");
+    document.querySelector(".player-1-panel").classList.remove("winner");
+    
+    diceDom.style.display = "none";
+}
 // Roll Dice товчин дээр дархад дуудах функцийг эвэнт листенерт холбоно
 document.querySelector(".btn-roll").addEventListener("click", function () {
     // Шоо хаях үед 1-6 хүртэлх санамсаргүйгээр хадгалах хувьсагч хэрэгтэй
@@ -41,7 +54,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
     document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
 
     // Уг тоглогч хожсон эсэхийг шалгах
-    if (scores[activePlayer] > 100) {
+    if (scores[activePlayer] > 20) {
         //hojloo
         document.getElementById("name-" + activePlayer).textContent = "WINNER!"
         document.querySelector(".player-"+ activePlayer + "-panel").classList.toggle('winner')
@@ -52,9 +65,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
 });
 
 // Шинэ тоглоом эхлүүлэх эвэнт листенер
-document.querySelector(".btn-new").addEventListener("click", function () {
-    alert("new tovch");
-})
+document.querySelector(".btn-new").addEventListener("click", initGame)
 
 function changePlayer() {
 document.getElementById("current-" + activePlayer).textContent = 0;
