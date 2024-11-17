@@ -30,14 +30,38 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
         document.getElementById("current-"+activePlayer).textContent = roundScore;
     } else {
         // 1 буусан тул тоглогчийн ээлжийг солино
-        document.getElementById("current-" + activePlayer).textContent = 0;
-        document.querySelector(".player-"+ activePlayer + "-panel").classList.remove('active')
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-        //Улаан цэгийг шилжүүлнэ
-        document.querySelector(".player-"+ activePlayer + "-panel").classList.add('active')
-        diceDom.style.display = "none"
+        changePlayer();
     }
-    ;
+});
+
+// Hold товчин дээр дарах үед дуудах функц
+document.querySelector(".btn-hold").addEventListener("click", function () {
+    // Идэвхтэй тоглогчийн үеийн оноог цуглуулсан оноон дээр нэмж үеийн оноог тэглэнэ
+    scores[activePlayer] += roundScore;
+    document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
+
+    // Уг тоглогч хожсон эсэхийг шалгах
+    if (scores[activePlayer] > 100) {
+        //hojloo
+        document.getElementById("name-" + activePlayer).textContent = "WINNER!"
+        document.querySelector(".player-"+ activePlayer + "-panel").classList.toggle('winner')
+    } else {
+        changePlayer();
+    }
     
 });
+
+// Шинэ тоглоом эхлүүлэх эвэнт листенер
+document.querySelector(".btn-new").addEventListener("click", function () {
+    alert("new tovch");
+})
+
+function changePlayer() {
+document.getElementById("current-" + activePlayer).textContent = 0;
+    document.querySelector(".player-"+ activePlayer + "-panel").classList.remove('active')
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+    //Улаан цэгийг шилжүүлнэ
+    document.querySelector(".player-"+ activePlayer + "-panel").classList.add('active')
+    diceDom.style.display = "none"
+}
