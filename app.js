@@ -1,7 +1,10 @@
+var isGameOver;
 var diceDom = document.querySelector(".dice");
 var activePlayer, score, roundScore;
 initGame();
 function initGame() {
+    // Тоглоом дууссан эсэх
+    isGameOver = false
     // Тоглогчийн ээлжийн хадгалах хувьсагч
     // Player 1 - 0, Player 2 - 1 гэж тэмдэглэв
     activePlayer = 0;
@@ -29,21 +32,23 @@ function initGame() {
 }
 // Roll Dice товчин дээр дархад дуудах функцийг эвэнт листенерт холбоно
 document.querySelector(".btn-roll").addEventListener("click", function () {
-    // Шоо хаях үед 1-6 хүртэлх санамсаргүйгээр хадгалах хувьсагч хэрэгтэй
-    var diceNumber = Math.floor(Math.random() * 6) + 1;
-    // Шооны зургийг вэб дээр гаргаж ирнэ
-    diceDom.style.display = "block";
-    // Шоо хаяхад буусан зургийг харгалзуулж харуулна
-    diceDom.src = "dice-" + diceNumber + ".png";
+    if (!isGameOver) {
+        // Шоо хаях үед 1-6 хүртэлх санамсаргүйгээр хадгалах хувьсагч хэрэгтэй
+        var diceNumber = Math.floor(Math.random() * 6) + 1;
+        // Шооны зургийг вэб дээр гаргаж ирнэ
+        diceDom.style.display = "block";
+        // Шоо хаяхад буусан зургийг харгалзуулж харуулна
+        diceDom.src = "dice-" + diceNumber + ".png";
 
-    // Буусан тоо нь нэгээс ялгаатай бол идэвхтэй тоглогчийн тоог нэмэгдүүлнэ.
-    if (diceNumber !== 1) {
-        // 1 ээс ялгаатай буусан тул тоглогчийн ээлжийн оноог нэмнэ
-        roundScore += diceNumber;
-        document.getElementById("current-"+activePlayer).textContent = roundScore;
-    } else {
-        // 1 буусан тул тоглогчийн ээлжийг солино
-        changePlayer();
+        // Буусан тоо нь нэгээс ялгаатай бол идэвхтэй тоглогчийн тоог нэмэгдүүлнэ.
+        if (diceNumber !== 1) {
+            // 1 ээс ялгаатай буусан тул тоглогчийн ээлжийн оноог нэмнэ
+            roundScore += diceNumber;
+            document.getElementById("current-"+activePlayer).textContent = roundScore;
+        } else {
+            // 1 буусан тул тоглогчийн ээлжийг солино
+            changePlayer();
+        }
     }
 });
 
@@ -54,8 +59,9 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
     document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
 
     // Уг тоглогч хожсон эсэхийг шалгах
-    if (scores[activePlayer] > 20) {
+    if (scores[activePlayer] > 100) {
         //hojloo
+        isGameOver = true
         document.getElementById("name-" + activePlayer).textContent = "WINNER!"
         document.querySelector(".player-"+ activePlayer + "-panel").classList.toggle('winner')
     } else {
